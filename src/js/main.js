@@ -55,11 +55,11 @@ async function init() {
   // Bind DOM events
   bindEvents();
 
-  // Register state listener to trigger UI re-renders on state change
+  // Register state listener to
   addListener((updatedState) => handleStateChange(updatedState));
 
-  // Handle initial routing
-  handleRouting();
+  // Show the initial page
+  goToPage('meals');
 
   // Load initial categories, areas & default meals
   try {
@@ -103,26 +103,9 @@ function showAppLoading(show) {
   }
 }
 
-// Listen to URL hash changes
-function handleRouting() {
-  const route = () => {
-    const hash = window.location.hash || '#meals';
-
-    if (hash.startsWith('#recipe/')) {
-      const id = hash.split('/')[1];
-      navigateToRecipeDetail(id);
-    } else if (hash === '#products') {
-      updateState({ currentTab: 'products' });
-    } else if (hash === '#foodlog') {
-      updateState({ currentTab: 'foodlog' });
-    } else {
-      // Default fallback
-      updateState({ currentTab: 'meals' });
-    }
-  };
-
-  window.addEventListener('hashchange', route);
-  route(); // Call once on load
+// Switch pages directly by updating state
+function goToPage(page) {
+  updateState({ currentTab: page });
 }
 
 // Switch the UI view sections based on current active tab
@@ -221,13 +204,7 @@ function renderTabs(currentTab) {
   document.getElementById('sidebar-overlay').classList.remove('active');
 }
 
-/**
- * Show/hide a loading spinner OVER the meal-details section without destroying
- * its inner structure. #meal-details contains named elements (.relative.h-80 img,
- * #hero-servings, ingredient/instruction containers, etc.) that renderMealDetails()
- * updates via querySelector — wiping the container's innerHTML (like renderSpinner
- * does) destroys those elements permanently, so a plain overlay is used instead.
- */
+// Show/hide a loading spinner
 function showMealDetailLoading(show) {
   const container = document.getElementById('meal-details');
   if (!container) return;
@@ -318,7 +295,7 @@ function handleStateChange(currentState) {
   }
 }
 
-// Update progress bars and intake metrics for the food log page
+// Update progress bars
 
 function updateFoodLogSummary(logItems) {
   const todayStr = new Date().toISOString().split('T')[0];
@@ -506,9 +483,9 @@ function bindEvents() {
   navLinks.forEach((link, idx) => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      if (idx === 0) window.location.hash = '#meals';
-      if (idx === 1) window.location.hash = '#products';
-      if (idx === 2) window.location.hash = '#foodlog';
+      if (idx === 0) goToPage('meals');
+      if (idx === 1) goToPage('products');
+      if (idx === 2) goToPage('foodlog');
     });
   });
 
@@ -700,7 +677,7 @@ function bindEvents() {
       const card = e.target.closest('.recipe-card');
       if (!card) return;
       const mealId = card.getAttribute('data-meal-id');
-      window.location.hash = `#recipe/${mealId}`;
+      navigateToRecipeDetail(mealId);
     });
   }
 
@@ -708,7 +685,7 @@ function bindEvents() {
   const backBtn = document.getElementById('back-to-meals-btn');
   if (backBtn) {
     backBtn.addEventListener('click', () => {
-      window.location.hash = '#meals';
+      goToPage('meals');
     });
   }
 
@@ -752,7 +729,7 @@ function bindEvents() {
             timer: 1500,
             showConfirmButton: false,
           }).then(() => {
-            window.location.hash = '#foodlog';
+            goToPage('foodlog');
           });
         }
       });
@@ -943,7 +920,7 @@ function bindEvents() {
                 timer: 1500,
                 showConfirmButton: false,
               }).then(() => {
-                window.location.hash = '#foodlog';
+                goToPage('foodlog');
               });
             });
         },
@@ -995,11 +972,11 @@ function bindEvents() {
   if (quickLogButtons.length >= 3) {
     //  Log a Meal
     quickLogButtons[0].addEventListener('click', () => {
-      window.location.hash = '#meals';
+      goToPage('meals');
     });
     //  Scan Product
     quickLogButtons[1].addEventListener('click', () => {
-      window.location.hash = '#products';
+      goToPage('products');
     });
     //  Custom Entry Modal
     quickLogButtons[2].addEventListener('click', () => {
