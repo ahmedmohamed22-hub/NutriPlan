@@ -835,14 +835,14 @@ function bindEvents() {
       // Set active styling
       if (grade === '') {
         btn.className =
-          'nutri-score-filter px-4 py-2 rounded-lg text-sm font-bold transition-all bg-emerald-600 text-white';
+          'nutri-score-filter px-4 py-2 rounded-lg text-sm font-bold transition-all bg-emerald-600';
       } else {
         const activeColors = {
-          a: 'bg-green-600 text-white',
-          b: 'bg-lime-600 text-white',
-          c: 'bg-yellow-500 text-white',
-          d: 'bg-orange-500 text-white',
-          e: 'bg-red-600 text-white',
+          a: 'bg-green-600 ',
+          b: 'bg-lime-600 ',
+          c: 'bg-yellow-500 ',
+          d: 'bg-orange-500 ',
+          e: 'bg-red-600 ',
         };
         btn.className = `nutri-score-filter px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeColors[grade]}`;
       }
