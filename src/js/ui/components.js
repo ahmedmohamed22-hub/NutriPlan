@@ -1,100 +1,22 @@
-const categoryStyles = {
-  beef: {
-    iconClass: 'fa-solid fa-drumstick-bite',
-    bg: '#fef2f2',
-    iconBg: '#ef4444',
-    accent: '#ef4444',
-  },
-  chicken: {
-    iconClass: 'fa-solid fa-egg',
-    bg: '#fff7ed',
-    iconBg: '#f97316',
-    accent: '#f97316',
-  },
-  dessert: {
-    iconClass: 'fa-solid fa-cookie-bite',
-    bg: '#fdf4ff',
-    iconBg: '#a855f7',
-    accent: '#a855f7',
-  },
-  lamb: {
-    iconClass: 'fa-solid fa-drumstick-bite',
-    bg: '#fff1f2',
-    iconBg: '#f43f5e',
-    accent: '#f43f5e',
-  },
-  miscellaneous: {
-    iconClass: 'fa-solid fa-utensils',
-    bg: '#f8fafc',
-    iconBg: '#64748b',
-    accent: '#64748b',
-  },
-  pasta: {
-    iconClass: 'fa-solid fa-bowl-food',
-    bg: '#fffbeb',
-    iconBg: '#eab308',
-    accent: '#d97706',
-  },
-  pork: {
-    iconClass: 'fa-solid fa-drumstick-bite',
-    bg: '#fef3c7',
-    iconBg: '#f59e0b',
-    accent: '#f59e0b',
-  },
-  seafood: {
-    iconClass: 'fa-solid fa-fish',
-    bg: '#eff6ff',
-    iconBg: '#3b82f6',
-    accent: '#3b82f6',
-  },
-  side: {
-    iconClass: 'fa-solid fa-bowl-rice',
-    bg: '#f0fdf4',
-    iconBg: '#22c55e',
-    accent: '#22c55e',
-  },
-  starter: {
-    iconClass: 'fa-solid fa-plate-wheat',
-    bg: '#ecfdf5',
-    iconBg: '#10b981',
-    accent: '#10b981',
-  },
-  vegan: {
-    iconClass: 'fa-solid fa-leaf',
-    bg: '#f0fdf4',
-    iconBg: '#16a34a',
-    accent: '#16a34a',
-  },
-  vegetarian: {
-    iconClass: 'fa-solid fa-carrot',
-    bg: '#fff7ed',
-    iconBg: '#ea580c',
-    accent: '#ea580c',
-  },
-  breakfast: {
-    iconClass: 'fa-solid fa-mug-hot',
-    bg: '#fefce8',
-    iconBg: '#ca8a04',
-    accent: '#ca8a04',
-  },
-  goat: {
-    iconClass: 'fa-solid fa-seedling',
-    bg: '#f0fdf4',
-    iconBg: '#4ade80',
-    accent: '#15803d',
-  },
+const categoryIcons = {
+  beef: 'fa-solid fa-drumstick-bite',
+  chicken: 'fa-solid fa-egg',
+  dessert: 'fa-solid fa-cookie-bite',
+  lamb: 'fa-solid fa-drumstick-bite',
+  miscellaneous: 'fa-solid fa-utensils',
+  pasta: 'fa-solid fa-bowl-food',
+  pork: 'fa-solid fa-drumstick-bite',
+  seafood: 'fa-solid fa-fish',
+  side: 'fa-solid fa-bowl-rice',
+  starter: 'fa-solid fa-plate-wheat',
+  vegan: 'fa-solid fa-leaf',
+  vegetarian: 'fa-solid fa-carrot',
+  breakfast: 'fa-solid fa-mug-hot',
+  goat: 'fa-solid fa-seedling',
 };
 
-// Fallback category style
-const defaultCategoryStyle = {
-  iconClass: 'fa-solid fa-utensils',
-  bg: '#f0fdf4',
-  iconBg: '#10b981',
-  accent: '#10b981',
-};
-
-function getCategoryStyle(name) {
-  return categoryStyles[(name || '').toLowerCase()] || defaultCategoryStyle;
+function getCategoryIcon(name) {
+  return categoryIcons[(name || '').toLowerCase()] || 'fa-solid fa-utensils';
 }
 
 // Product helpers
@@ -187,33 +109,27 @@ export function renderCategories(categories, activeFilter) {
   // "All" button first
   const allActive = activeFilter === '';
   const allBtn = `
-    <div class="category-card cursor-pointer select-none rounded-xl p-3 border-2 transition-all group
-        ${allActive ? 'border-emerald-600 shadow-md' : 'border-transparent hover:border-emerald-300 hover:shadow-sm'}"
-      style="background:${allActive ? '#ecfdf5' : '#ffffff'};"
+    <div class="category-card bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-3 border ${allActive ? 'border-emerald-500 shadow-md' : 'border-emerald-200 hover:border-emerald-400 hover:shadow-md'} cursor-pointer transition-all group"
       data-category="">
       <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm"
-          style="background:${allActive ? '#10b981' : '#d1fae5'}; color:${allActive ? '#ffffff' : '#10b981'};">
-          <i class="fa-solid fa-border-all text-sm"></i>
+        <div class="text-white w-9 h-9 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+          <i class="fa-solid fa-border-all"></i>
         </div>
-        <h3 class="text-sm font-bold truncate" style="color:${allActive ? '#065f46' : '#111827'};">All</h3>
+        <h3 class="text-sm font-bold text-gray-900">All</h3>
       </div>
     </div>`;
 
   const cards = visibleCategories.map((cat) => {
-    const style = getCategoryStyle(cat.name);
+    const iconClass = getCategoryIcon(cat.name);
     const isActive = activeFilter === `cat:${cat.name}`;
     return `
-      <div class="category-card cursor-pointer select-none rounded-xl p-3 border-2 transition-all group
-          ${isActive ? 'shadow-md' : 'hover:shadow-sm'}"
-        style="background:${style.bg}; border-color:${isActive ? style.accent : 'transparent'};"
+      <div class="category-card bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-3 border ${isActive ? 'border-emerald-500 shadow-md' : 'border-emerald-200 hover:border-emerald-400 hover:shadow-md'} cursor-pointer transition-all group"
         data-category="${cat.name}">
         <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm text-white"
-            style="background:${style.iconBg};">
-            <i class="${style.iconClass} text-sm"></i>
+          <div class="text-white w-9 h-9 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="${iconClass}"></i>
           </div>
-          <h3 class="text-sm font-bold leading-tight" style="color:${isActive ? style.accent : '#111827'};">${cat.name}</h3>
+          <h3 class="text-sm font-bold text-gray-900">${cat.name}</h3>
         </div>
       </div>`;
   });
@@ -267,9 +183,7 @@ export function renderRecipes(meals, viewMode = 'grid') {
   if (!grid) return;
 
   grid.className =
-    viewMode === 'list'
-      ? 'flex flex-col gap-4'
-      : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5';
+    viewMode === 'list' ? 'flex flex-col gap-4' : 'grid grid-cols-4 gap-5';
 
   if (!meals || meals.length === 0) {
     renderEmptyState(
@@ -285,24 +199,20 @@ export function renderRecipes(meals, viewMode = 'grid') {
       if (viewMode === 'list') {
         return `
         <div class="recipe-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group flex flex-col sm:flex-row h-auto sm:h-40" data-meal-id="${meal.id}">
-          <div class="relative w-full sm:w-48 h-40 sm:h-full shrink-0 overflow-hidden bg-gray-100">
+          <div class="relative w-full sm:w-48 h-40 sm:h-full shrink-0 overflow-hidden">
             <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="${meal.thumbnail || ''}" alt="${meal.name}" loading="lazy"/>
             <div class="absolute bottom-2 left-2">
-              <span class="px-2 py-0.5 bg-white/95 text-[10px] font-semibold rounded-full text-gray-700 shadow-xs">${meal.category}</span>
+              <span class="px-2 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold rounded-full text-gray-700">${meal.category}</span>
             </div>
           </div>
           <div class="p-4 flex-1 flex flex-col justify-between">
             <div>
-              <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-                <span class="px-2.5 py-0.5 bg-emerald-50 text-emerald-700 text-[10px] font-bold rounded-full uppercase">${meal.category}</span>
-                ${meal.area ? `<span class="px-2.5 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-bold rounded-full uppercase">${meal.area}</span>` : ''}
-              </div>
               <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-emerald-600 transition-colors line-clamp-1">${meal.name}</h3>
-              <p class="text-xs text-gray-500 line-clamp-2">${meal.instructions ? (Array.isArray(meal.instructions) ? meal.instructions.join(' ') : meal.instructions) : 'Click to view the full recipe.'}</p>
+              <p class="text-xs text-gray-600 line-clamp-2">${meal.instructions ? (Array.isArray(meal.instructions) ? meal.instructions.join(' ') : meal.instructions) : 'Click to view the full recipe.'}</p>
             </div>
-            <div class="flex items-center justify-between text-xs pt-2 mt-2 border-t border-gray-100">
-              <span class="font-semibold text-gray-700"><i class="fa-solid fa-utensils text-emerald-600 mr-1.5"></i>${meal.category}</span>
-              ${meal.area ? `<span class="font-semibold text-gray-500"><i class="fa-solid fa-globe text-blue-500 mr-1.5"></i>${meal.area}</span>` : ''}
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-semibold text-gray-900"><i class="fa-solid fa-utensils text-emerald-600 mr-1"></i>${meal.category}</span>
+              ${meal.area ? `<span class="font-semibold text-gray-500"><i class="fa-solid fa-globe text-blue-500 mr-1"></i>${meal.area}</span>` : ''}
             </div>
           </div>
         </div>`;
@@ -311,18 +221,18 @@ export function renderRecipes(meals, viewMode = 'grid') {
       // Grid view
       return `
       <div class="recipe-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group" data-meal-id="${meal.id}">
-        <div class="relative h-48 overflow-hidden bg-gray-100">
+        <div class="relative h-48 overflow-hidden">
           <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="${meal.thumbnail || ''}" alt="${meal.name}" loading="lazy"/>
-          <div class="absolute bottom-3 left-3 flex gap-1.5">
-            <span class="px-2.5 py-1 bg-white/90 text-[10px] font-bold rounded-full text-gray-700 shadow-xs">${meal.category}</span>
-            ${meal.area ? `<span class="px-2.5 py-1 bg-emerald-500 text-[10px] font-bold rounded-full text-white shadow-xs">${meal.area}</span>` : ''}
+          <div class="absolute bottom-3 left-3 flex gap-2">
+            <span class="px-2 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold rounded-full text-gray-700">${meal.category}</span>
+            ${meal.area ? `<span class="px-2 py-1 bg-emerald-500 text-xs font-semibold rounded-full text-white">${meal.area}</span>` : ''}
           </div>
         </div>
         <div class="p-4">
-          <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-emerald-600 transition-colors line-clamp-1" title="${meal.name}">${meal.name}</h3>
-          <p class="text-xs text-gray-500 mb-3 line-clamp-2">${meal.instructions ? (Array.isArray(meal.instructions) ? meal.instructions.join(' ') : meal.instructions) : 'Click to view full recipe details.'}</p>
-          <div class="flex items-center justify-between text-xs pt-2.5 border-t border-gray-100">
-            <span class="font-semibold text-gray-700"><i class="fa-solid fa-utensils text-emerald-600 mr-1"></i>${meal.category}</span>
+          <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-emerald-600 transition-colors line-clamp-1">${meal.name}</h3>
+          <p class="text-xs text-gray-600 mb-3 line-clamp-2">${meal.instructions ? (Array.isArray(meal.instructions) ? meal.instructions.join(' ') : meal.instructions) : 'Click to view full recipe details.'}</p>
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-semibold text-gray-900"><i class="fa-solid fa-utensils text-emerald-600 mr-1"></i>${meal.category}</span>
             ${meal.area ? `<span class="font-semibold text-gray-500"><i class="fa-solid fa-globe text-blue-500 mr-1"></i>${meal.area}</span>` : ''}
           </div>
         </div>
