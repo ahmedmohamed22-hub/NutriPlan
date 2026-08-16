@@ -19,6 +19,30 @@ function getCategoryIcon(name) {
   return categoryIcons[(name || '').toLowerCase()] || 'fa-solid fa-utensils';
 }
 
+// Same gradient-card pattern as the emerald example in index.html, one color family per category
+const categoryColors = {
+  beef: { bg: 'from-red-50 to-rose-50', border: 'border-red-200 hover:border-red-400', icon: 'from-red-400 to-rose-500', active: 'border-red-500' },
+  chicken: { bg: 'from-orange-50 to-amber-50', border: 'border-orange-200 hover:border-orange-400', icon: 'from-orange-400 to-amber-500', active: 'border-orange-500' },
+  dessert: { bg: 'from-pink-50 to-fuchsia-50', border: 'border-pink-200 hover:border-pink-400', icon: 'from-pink-400 to-fuchsia-500', active: 'border-pink-500' },
+  lamb: { bg: 'from-rose-50 to-red-50', border: 'border-rose-200 hover:border-rose-400', icon: 'from-rose-400 to-red-500', active: 'border-rose-500' },
+  miscellaneous: { bg: 'from-slate-50 to-gray-50', border: 'border-slate-200 hover:border-slate-400', icon: 'from-slate-400 to-gray-500', active: 'border-slate-500' },
+  pasta: { bg: 'from-yellow-50 to-amber-50', border: 'border-yellow-200 hover:border-yellow-400', icon: 'from-yellow-400 to-amber-500', active: 'border-yellow-500' },
+  pork: { bg: 'from-amber-50 to-orange-50', border: 'border-amber-200 hover:border-amber-400', icon: 'from-amber-400 to-orange-500', active: 'border-amber-500' },
+  seafood: { bg: 'from-blue-50 to-cyan-50', border: 'border-blue-200 hover:border-blue-400', icon: 'from-blue-400 to-cyan-500', active: 'border-blue-500' },
+  side: { bg: 'from-green-50 to-lime-50', border: 'border-green-200 hover:border-green-400', icon: 'from-green-400 to-lime-500', active: 'border-green-500' },
+  starter: { bg: 'from-teal-50 to-emerald-50', border: 'border-teal-200 hover:border-teal-400', icon: 'from-teal-400 to-emerald-500', active: 'border-teal-500' },
+  vegan: { bg: 'from-lime-50 to-green-50', border: 'border-lime-200 hover:border-lime-400', icon: 'from-lime-400 to-green-500', active: 'border-lime-500' },
+  vegetarian: { bg: 'from-orange-50 to-red-50', border: 'border-orange-200 hover:border-orange-400', icon: 'from-orange-400 to-red-500', active: 'border-orange-500' },
+  breakfast: { bg: 'from-yellow-50 to-orange-50', border: 'border-yellow-200 hover:border-yellow-400', icon: 'from-yellow-400 to-orange-500', active: 'border-yellow-500' },
+  goat: { bg: 'from-emerald-50 to-green-50', border: 'border-emerald-200 hover:border-emerald-400', icon: 'from-emerald-400 to-green-500', active: 'border-emerald-500' },
+};
+
+const defaultCategoryColor = { bg: 'from-emerald-50 to-teal-50', border: 'border-emerald-200 hover:border-emerald-400', icon: 'from-emerald-400 to-green-500', active: 'border-emerald-500' };
+
+function getCategoryColor(name) {
+  return categoryColors[(name || '').toLowerCase()] || defaultCategoryColor;
+}
+
 // Product helpers
 
 function getNutriScoreColorClass(grade) {
@@ -121,12 +145,14 @@ export function renderCategories(categories, activeFilter) {
 
   const cards = visibleCategories.map((cat) => {
     const iconClass = getCategoryIcon(cat.name);
+    const color = getCategoryColor(cat.name);
     const isActive = activeFilter === `cat:${cat.name}`;
+    const borderClasses = isActive ? `${color.active} shadow-md` : `${color.border} hover:shadow-md`;
     return `
-      <div class="category-card bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-3 border ${isActive ? 'border-emerald-500 shadow-md' : 'border-emerald-200 hover:border-emerald-400 hover:shadow-md'} cursor-pointer transition-all group"
+      <div class="category-card bg-gradient-to-br ${color.bg} rounded-xl p-3 border ${borderClasses} cursor-pointer transition-all group"
         data-category="${cat.name}">
         <div class="flex items-center gap-2.5">
-          <div class="text-white w-9 h-9 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+          <div class="text-white w-9 h-9 bg-gradient-to-br ${color.icon} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
             <i class="${iconClass}"></i>
           </div>
           <h3 class="text-sm font-bold text-gray-900">${cat.name}</h3>
