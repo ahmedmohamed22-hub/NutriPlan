@@ -19,7 +19,7 @@ function getCategoryIcon(name) {
   return categoryIcons[(name || '').toLowerCase()] || 'fa-solid fa-utensils';
 }
 
-// Same gradient-card pattern as the emerald example in index.html, one color family per category
+
 const categoryColors = {
   beef: { bg: 'from-red-50 to-rose-50', border: 'border-red-200 hover:border-red-400', icon: 'from-red-400 to-rose-500', active: 'border-red-500' },
   chicken: { bg: 'from-orange-50 to-amber-50', border: 'border-orange-200 hover:border-orange-400', icon: 'from-orange-400 to-amber-500', active: 'border-orange-500' },
